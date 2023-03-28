@@ -55,7 +55,7 @@ include { INPUT_CHECK } from '../subworkflows/local/input_check'
 // MODULE: Installed directly from nf-core/modules
 //
 //include { FASTQC                      } from '../modules/nf-core/fastqc/main'
-include { XLM_MOD }    from '../modules/local/xmlmod.nf'
+include { XML_MOD }    from '../modules/local/xmlmod.nf'
 include { RUN_MODEL }  from '../modules/local/model.nf'
 include { JOIN_FILES } from '../modules/local/joinfiles.nf'
 include { MAKE_PLOT }  from '../modules/local/rplot.nf'
@@ -95,9 +95,9 @@ workflow SPINNINGJENNY {
         }.set{ pipe_params}
 
 
-   Experiments = Channel.of( "testing1" )
+    Experiments = Channel.of( "testing1" )
 
-   pipe_params.map {
+    pipe_params.map {
         def BigDecimal start = Float.parseFloat(it[1])
         def BigDecimal fin = Float.parseFloat(it[2])
         def BigDecimal step = Float.parseFloat(it[3])
@@ -108,15 +108,16 @@ workflow SPINNINGJENNY {
         ranges.push(start)
         [it[0], ranges]
 
-   }.transpose().set{reshaped_pars}
+    }.transpose().set{reshaped_pars}
 
-   n_batches = Channel.from( 1..params.batches )
+    n_batches = Channel.from( 1..params.batches )
 
-   pipe_params.view()
-   reshaped_pars.view()
-   n_batches.view()
+ 
+    //
+    // SUBWORKFLOW: Read in samplesheet, validate and stage input files
+    //
 
-   xml_files = XLM_MOD (reshaped_pars, ch_template)
+   xml_files = XML_MOD (reshaped_pars, ch_template)
    xml_files.combine(Experiments).combine(n_batches).map{
    		["${it[0]}__${it[5]}", it[1], it[2], it[3], it[4]]
    }.set{data_for_model}
@@ -131,7 +132,6 @@ workflow SPINNINGJENNY {
 
 
 }
-
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     COMPLETION EMAIL AND SUMMARY
