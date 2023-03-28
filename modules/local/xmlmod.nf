@@ -1,4 +1,4 @@
-process xmlMod {
+process XLM_MOD {
     container 'biocorecrg/amazonlinux-perlbrew-pyenv3-java:2'
     
     tag { "${par_name} on ${par_value}" }
