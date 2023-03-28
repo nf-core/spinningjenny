@@ -20,7 +20,7 @@ for (param in checkPathParamList) { if (param) { file(param, checkIfExists: true
 if (params.input) { ch_input = file(params.input) } else { exit 1, 'Input values not specified!' }
 if (params.template) { ch_template = file(params.template) } else { exit 1, 'Input xml template not specified!' }
 if (params.batches) { n_batches = params.batches } else { exit 1, 'Input number of batches not specified!' }
-
+if (params.nlogo) { ch_nlogo = params.nlogo } else { exit 1, 'You need to specify the nlogo file!' }
 
 
 /*
@@ -121,6 +121,17 @@ workflow SPINNINGJENNY {
     //
 
    xml_files = xmlMod (reshaped_pars, ch_template)
+   xml_files.combine(Experiments).combine(n_batches).map{
+   		["${it[0]}__${it[5]}", it[1], it[2], it[3], it[4]]
+   }.set{data_for_model}
+   res_model = runModel(data_for_model, ch_nlogo)
+   res_model.map{
+   		def ids = it[0].split("__")
+   		[ids[0], it[1]]
+   }.groupTuple().set{files_pieces}
+   
+   concat_res = joinFiles(files_pieces)
+   makePlot(concat_res)
 
 
 //    INPUT_CHECK (

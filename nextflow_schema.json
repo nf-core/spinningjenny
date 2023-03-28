@@ -32,6 +32,16 @@
                     "help_text": "You will need to create an experiment file with information about the number of steps and the initial values of the variables",
                     "fa_icon": "fas fa-file-csv"
                 },
+                "nlogo": {
+                    "type": "string",
+                    "format": "file-path",
+                    "mimetype": "text/csv",
+                    "pattern": "^\\S+\\.nlogo$",
+                    "schema": "assets/schema_input.json",
+                    "description": "Path to the nlogo file containing information about the ABM",
+                    "help_text": "You will need to create an nlogo file with information about the kind of model you want to represent",
+                    "fa_icon": "fas fa-file-csv"
+                },
                 "batches": {
                     "type": "integer",
                     "default": 1,
