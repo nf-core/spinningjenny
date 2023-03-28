@@ -1,4 +1,4 @@
-process makePlot {
+process MAKE_PLOT {
 
     container 'biocorecrg/econ_r:0.1'
 
