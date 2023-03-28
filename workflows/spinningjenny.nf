@@ -17,7 +17,11 @@ def checkPathParamList = [ params.input ]
 for (param in checkPathParamList) { if (param) { file(param, checkIfExists: true) } }
 
 // Check mandatory parameters
-if (params.input) { ch_input = file(params.input) } else { exit 1, 'Input samplesheet not specified!' }
+if (params.input) { ch_input = file(params.input) } else { exit 1, 'Input values not specified!' }
+if (params.template) { ch_template = file(params.template) } else { exit 1, 'Input xml template not specified!' }
+if (params.batches) { n_batches = params.batches } else { exit 1, 'Input number of batches not specified!' }
+
+
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -50,7 +54,13 @@ include { INPUT_CHECK } from '../subworkflows/local/input_check'
 //
 // MODULE: Installed directly from nf-core/modules
 //
-include { FASTQC                      } from '../modules/nf-core/fastqc/main'
+//include { FASTQC                      } from '../modules/nf-core/fastqc/main'
+include { xmlMod }    from '../modules/local/xmlmod.nf'
+include { runModel }  from '../modules/local/model.nf'
+include { joinFiles } from '../modules/local/joinfiles.nf'
+include { makePlot }  from '../modules/local/rplot.nf'
+
+
 include { MULTIQC                     } from '../modules/nf-core/multiqc/main'
 include { CUSTOM_DUMPSOFTWAREVERSIONS } from '../modules/nf-core/custom/dumpsoftwareversions/main'
 
@@ -67,9 +77,52 @@ workflow SPINNINGJENNY {
 
     ch_versions = Channel.empty()
 
+    // Create channels for input values
+    Channel
+        .from(ch_input.readLines())
+        .map { line ->
+            list = line.split("\t")
+                if (list.length <2) {
+                  error "ERROR!!! Values file has to be tab separated\n"
+                }
+                if (list[0]!= "") {
+                    param_name = list[0]
+                initial_val = list[1]
+                final_val = list[2]
+                step_val = list[3]
+                [ param_name, initial_val, final_val, step_val ]
+            }
+        }.set{ pipe_params}
+
+
+    Experiments = Channel.of( "testing1" )
+
+    pipe_params.map {
+        def BigDecimal start = Float.parseFloat(it[1])
+        def BigDecimal fin = Float.parseFloat(it[2])
+        def BigDecimal step = Float.parseFloat(it[3])
+        def ranges = []
+        for (i = fin; i > start; i-=step) {
+            ranges.push(i)
+        }
+        ranges.push(start)
+        [it[0], ranges]
+
+    }.transpose().set{reshaped_pars}
+
+    n_batches = Channel.from( 1..params.batches )
+
+    pipe_params.view()
+    reshaped_pars.view()
+    n_batches.view()
+
     //
     // SUBWORKFLOW: Read in samplesheet, validate and stage input files
     //
+
+   xml_files = xmlMod (reshaped_pars, ch_template)
+
+
 //    INPUT_CHECK (
 //        ch_input
  //   )

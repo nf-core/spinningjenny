@@ -32,6 +32,16 @@
                     "help_text": "You will need to create an experiment file with information about the number of steps and the initial values of the variables",
                     "fa_icon": "fas fa-file-csv"
                 },
+                "batches": {
+                    "type": "integer",
+                    "default": 1,
+                    "format": "file-path",
+                    "pattern": "",
+                    "schema": "assets/schema_input.json",
+                    "description": "Number of batches for running chunks of experiments",
+                    "help_text": "It should be the total number of replications divided by the number maximum number of CPU per job ",
+                    "fa_icon": "fas fa-palette"
+                },
 
                 "outdir": {
                     "type": "string",
