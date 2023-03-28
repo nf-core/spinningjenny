@@ -1,4 +1,4 @@
-process runModel {
+process RUN_MODEL {
     container 'biocorecrg/econ:0.02'
    
  
