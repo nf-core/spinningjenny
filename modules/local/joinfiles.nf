@@ -1,6 +1,6 @@
 process joinFiles {
  
-    publishDir(params.output, mode:'copy') 
+    //publishDir(params.output, mode:'copy') 
 
     tag { "${id}" }
     
