@@ -1,4 +1,4 @@
-process joinFiles {
+process JOIN_FILES {
  
     //publishDir(params.output, mode:'copy') 
 
