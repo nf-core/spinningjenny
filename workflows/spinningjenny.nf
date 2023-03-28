@@ -55,10 +55,10 @@ include { INPUT_CHECK } from '../subworkflows/local/input_check'
 // MODULE: Installed directly from nf-core/modules
 //
 //include { FASTQC                      } from '../modules/nf-core/fastqc/main'
-include { xmlMod }    from '../modules/local/xmlmod.nf'
-include { runModel }  from '../modules/local/model.nf'
-include { joinFiles } from '../modules/local/joinfiles.nf'
-include { makePlot }  from '../modules/local/rplot.nf'
+include { XLM_MOD }    from '../modules/local/xmlmod.nf'
+include { RUN_MODEL }  from '../modules/local/model.nf'
+include { JOIN_FILES } from '../modules/local/joinfiles.nf'
+include { MAKE_PLOT }  from '../modules/local/rplot.nf'
 
 
 include { MULTIQC                     } from '../modules/nf-core/multiqc/main'
@@ -95,9 +95,9 @@ workflow SPINNINGJENNY {
         }.set{ pipe_params}
 
 
-    Experiments = Channel.of( "testing1" )
+   Experiments = Channel.of( "testing1" )
 
-    pipe_params.map {
+   pipe_params.map {
         def BigDecimal start = Float.parseFloat(it[1])
         def BigDecimal fin = Float.parseFloat(it[2])
         def BigDecimal step = Float.parseFloat(it[3])
@@ -108,71 +108,28 @@ workflow SPINNINGJENNY {
         ranges.push(start)
         [it[0], ranges]
 
-    }.transpose().set{reshaped_pars}
+   }.transpose().set{reshaped_pars}
 
-    n_batches = Channel.from( 1..params.batches )
+   n_batches = Channel.from( 1..params.batches )
 
-    pipe_params.view()
-    reshaped_pars.view()
-    n_batches.view()
+   pipe_params.view()
+   reshaped_pars.view()
+   n_batches.view()
 
-    //
-    // SUBWORKFLOW: Read in samplesheet, validate and stage input files
-    //
-
-   xml_files = xmlMod (reshaped_pars, ch_template)
+   xml_files = XLM_MOD (reshaped_pars, ch_template)
    xml_files.combine(Experiments).combine(n_batches).map{
    		["${it[0]}__${it[5]}", it[1], it[2], it[3], it[4]]
    }.set{data_for_model}
-   res_model = runModel(data_for_model, ch_nlogo)
+   res_model = RUN_MODEL(data_for_model, ch_nlogo)
    res_model.map{
    		def ids = it[0].split("__")
    		[ids[0], it[1]]
    }.groupTuple().set{files_pieces}
    
-   concat_res = joinFiles(files_pieces)
-   makePlot(concat_res)
+   concat_res = JOIN_FILES(files_pieces)
+   MAKE_PLOT(concat_res)
 
 
-//    INPUT_CHECK (
-//        ch_input
- //   )
-//    ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
-
-    //
-    // MODULE: Run FastQC
-    //
-//    FASTQC (
-//        INPUT_CHECK.out.reads
-//    )
-//    ch_versions = ch_versions.mix(FASTQC.out.versions.first())
-
-//    CUSTOM_DUMPSOFTWAREVERSIONS (
-//        ch_versions.unique().collectFile(name: 'collated_versions.yml')
-//    )
-
-    //
-    // MODULE: MultiQC
-    //
-//     workflow_summary    = WorkflowSpinningjenny.paramsSummaryMultiqc(workflow, summary_params)
-//     ch_workflow_summary = Channel.value(workflow_summary)
-//
-//     methods_description    = WorkflowSpinningjenny.methodsDescriptionText(workflow, ch_multiqc_custom_methods_description)
-//     ch_methods_description = Channel.value(methods_description)
-//
-//     ch_multiqc_files = Channel.empty()
-//     ch_multiqc_files = ch_multiqc_files.mix(ch_workflow_summary.collectFile(name: 'workflow_summary_mqc.yaml'))
-//     ch_multiqc_files = ch_multiqc_files.mix(ch_methods_description.collectFile(name: 'methods_description_mqc.yaml'))
-//     ch_multiqc_files = ch_multiqc_files.mix(CUSTOM_DUMPSOFTWAREVERSIONS.out.mqc_yml.collect())
-//     ch_multiqc_files = ch_multiqc_files.mix(FASTQC.out.zip.collect{it[1]}.ifEmpty([]))
-//
-//     MULTIQC (
-//         ch_multiqc_files.collect(),
-//         ch_multiqc_config.toList(),
-//         ch_multiqc_custom_config.toList(),
-//         ch_multiqc_logo.toList()
-//     )
-//     multiqc_report = MULTIQC.out.report.toList()
 }
 
 /*
