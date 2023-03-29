@@ -14,7 +14,7 @@
 
 <!-- TODO nf-core: Write a 1-2 sentence summary of what data the pipeline is for and what it does -->
 
-**nf-core/spinningjenny** is a bioinformatics best-practice analysis pipeline for simulating the first industrial revolution using Agent Based Models.
+**nf-core/spinningjenny** is an analysis pipeline for simulating the first industrial revolution using Agent Based Models.
 
 The pipeline is built using [Nextflow](https://www.nextflow.io), a workflow tool to run tasks across multiple compute infrastructures in a very portable manner. It uses Docker/Singularity containers making installation trivial and results highly reproducible. The [Nextflow DSL2](https://www.nextflow.io/docs/latest/dsl2.html) implementation of this pipeline uses one container per process which makes it much easier to maintain and update software dependencies. Where possible, these processes have been submitted to and installed from [nf-core/modules](https://github.com/nf-core/modules) in order to make them available to all nf-core pipelines, and to everyone within the Nextflow community!
 
@@ -26,9 +26,9 @@ On release, automated continuous integration tests run the pipeline on a full-si
 
 <!-- TODO nf-core: Fill in short bullet-pointed list of the default steps in the pipeline -->
 
-1. xlmMod: the xml template is used for generating several input files for running the ABM in parallel
+1. xlmMod: it generates xml input files for running the ABM in parallel
 2. Model runs ([`netLogo`](https://ccl.northwestern.edu/netlogo/))
-3. Draw plots reporting different economic parameters. ([`R statistical language`](https://www.r-project.org/))
+3. Draw plots reporting different economic parameters ([`R statistical language`](https://www.r-project.org/))
 
 ## Quick Start
 
