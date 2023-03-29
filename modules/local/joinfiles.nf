@@ -1,6 +1,6 @@
 process JOIN_FILES {
  
-    //publishDir(params.output, mode:'copy') 
+    container 'biocorecrg/amazonlinux-perlbrew-pyenv3-java:2'
 
     tag { "${id}" }
     

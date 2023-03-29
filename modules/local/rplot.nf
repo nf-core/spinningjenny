@@ -3,7 +3,6 @@ process MAKE_PLOT {
     container 'biocorecrg/econ_r:0.1'
 
     errorStrategy = 'ignore'
-//    publishDir(params.output, mode:'copy') 
 
     tag { id }
     

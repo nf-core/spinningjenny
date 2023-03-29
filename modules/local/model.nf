@@ -3,7 +3,7 @@ process RUN_MODEL {
    
  
     tag { "${experiment} on ${id}" }
-    label 'big_cpus'
+    label 'process_medium'
     
     input:
     tuple val(id), val(par_name), val(par_value), path(setup), val(experiment)
