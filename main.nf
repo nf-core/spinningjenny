@@ -4,7 +4,6 @@
     nf-core/spinningjenny
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     Github : https://github.com/nf-core/spinningjenny
-
     Website: https://nf-co.re/spinningjenny
     Slack  : https://nfcore.slack.com/channels/spinningjenny
 ----------------------------------------------------------------------------------------
