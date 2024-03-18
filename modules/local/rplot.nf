@@ -5,16 +5,16 @@ process MAKE_PLOT {
     errorStrategy = 'ignore'
 
     tag { id }
-    
+
     input:
     tuple val(id), path(res)
 
     output:
     tuple val(id), path("*.pdf")
-    
+
     script:
     """
-    make_graph.R -input ${res} -output ${id}  
+    make_graph.R -input ${res} -output ${id}
     """
 }
 

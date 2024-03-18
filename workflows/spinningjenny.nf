@@ -80,7 +80,7 @@ workflow SPINNINGJENNY {
         .map { line ->
             list = line.split("\t")
                 if (list.length <2) {
-                  error "ERROR!!! Values file has to be tab separated\n"
+                    error "ERROR!!! Values file has to be tab separated\n"
                 }
                 if (list[0]!= "") {
                     param_name = list[0]
@@ -109,23 +109,23 @@ workflow SPINNINGJENNY {
 
     n_batches = Channel.from( 1..params.batches )
 
- 
+
     //
     // SUBWORKFLOW: Read in samplesheet, validate and stage input files
     //
 
-   xml_files = XML_MOD (reshaped_pars, ch_template)
-   xml_files.combine(Experiments).combine(n_batches).map{
-   		["${it[0]}__${it[5]}", it[1], it[2], it[3], it[4]]
-   }.set{data_for_model}
-   res_model = RUN_MODEL(data_for_model, ch_nlogo)
-   res_model.map{
-   		def ids = it[0].split("__")
-   		[ids[0], it[1]]
-   }.groupTuple().set{files_pieces}
-   
-   concat_res = JOIN_FILES(files_pieces)
-   MAKE_PLOT(concat_res)
+    xml_files = XML_MOD (reshaped_pars, ch_template)
+    xml_files.combine(Experiments).combine(n_batches).map{
+            ["${it[0]}__${it[5]}", it[1], it[2], it[3], it[4]]
+    }.set{data_for_model}
+    res_model = RUN_MODEL(data_for_model, ch_nlogo)
+    res_model.map{
+            def ids = it[0].split("__")
+            [ids[0], it[1]]
+    }.groupTuple().set{files_pieces}
+
+    concat_res = JOIN_FILES(files_pieces)
+    MAKE_PLOT(concat_res)
 
 
 }
