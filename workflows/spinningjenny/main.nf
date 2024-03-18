@@ -4,10 +4,10 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-def summary_params = NfcoreSchema.paramsSummaryMap(workflow, params)
+//def summary_params = NfcoreSchema.paramsSummaryMap(workflow, params)
 
 // Validate input parameters
-WorkflowSpinningjenny.initialise(params, log)
+//WorkflowSpinningjenny.initialise(params, log)
 
 
 // TODO nf-core: Add all file path parameters for the pipeline to the list below
@@ -43,7 +43,7 @@ ch_multiqc_custom_methods_description = params.multiqc_methods_description ? fil
 //
 // SUBWORKFLOW: Consisting of a mix of local and nf-core/modules
 //
-include { INPUT_CHECK } from '../subworkflows/local/input_check'
+//include { INPUT_CHECK } from '../subworkflows/local/input_check'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -55,14 +55,16 @@ include { INPUT_CHECK } from '../subworkflows/local/input_check'
 // MODULE: Installed directly from nf-core/modules
 //
 //include { FASTQC                      } from '../modules/nf-core/fastqc/main'
-include { XML_MOD }    from '../modules/local/xmlmod.nf'
-include { RUN_MODEL }  from '../modules/local/model.nf'
-include { JOIN_FILES } from '../modules/local/joinfiles.nf'
-include { MAKE_PLOT }  from '../modules/local/rplot.nf'
+include { XML_MOD }    from '../../modules/local/xmlmod.nf'
+include { RUN_MODEL }  from '../../modules/local/model.nf'
+include { JOIN_FILES } from '../../modules/local/joinfiles.nf'
+include { MAKE_PLOT }  from '../../modules/local/rplot.nf'
 
+include { paramsSummaryMultiqc             } from '../../subworkflows/nf-core/utils_nfcore_pipeline'
+include { softwareVersionsToYAML           } from '../../subworkflows/nf-core/utils_nfcore_pipeline'
 
-include { MULTIQC                     } from '../modules/nf-core/multiqc/main'
-include { CUSTOM_DUMPSOFTWAREVERSIONS } from '../modules/nf-core/custom/dumpsoftwareversions/main'
+//include { MULTIQC                     } from '../../modules/nf-core/multiqc/main'
+//include { CUSTOM_DUMPSOFTWAREVERSIONS } from '../../modules/nf-core/custom/dumpsoftwareversions/main'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -75,6 +77,9 @@ workflow SPINNINGJENNY {
     take:
     ch_samplesheet // channel: samplesheet read in from --input
     // Create channels for input values
+
+    main:
+    
     Channel
         .from(ch_input.readLines())
         .map { line ->
@@ -133,7 +138,7 @@ workflow SPINNINGJENNY {
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     COMPLETION EMAIL AND SUMMARY
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-*/
+
 
 workflow.onComplete {
     if (params.email || params.email_on_fail) {
