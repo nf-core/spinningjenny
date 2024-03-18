@@ -130,9 +130,10 @@ workflow SPINNINGJENNY {
     }.groupTuple().set{files_pieces}
 
     concat_res = JOIN_FILES(files_pieces)
-    MAKE_PLOT(concat_res)
+    out = MAKE_PLOT(concat_res)
 
-
+    emit:
+	out
 }
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
