@@ -36,20 +36,22 @@ output_plot3 <- paste(args$Output_prefix, "_3.pdf", sep="")
 ## importing data
 #rm(list = ls())
 
-outputs <- read_csv(input_file,
-                                        col_types = cols(X1 = col_number()),
-                                        skip = 6,)
+outputs <- read_csv(
+    input_file,
+    col_types = cols(X1 = col_number()),
+    skip = 6
+)
 
 
 # rename [step] to avoid problems with [] in R
-#outputs <- outputs %>%
-#    rename(turn = 41,ID = 1)
+# outputs <- outputs %>%
+# rename(turn = 41,ID = 1)
 
 #outputs
 
 #exit
 
-## comparison graphs, only for wealth and    prices
+## comparison graphs, only for wealth and prices
 
 ## prices
 
@@ -59,8 +61,10 @@ bourgeoisiesprice <- outputs %>%
 
 bourgeoisiespricessshades <- outputs %>%
     group_by(step) %>%
-    summarize(highbourgpr = quantile(`mean price of bourgeoisie`, probs = 0.975),
-                        lowbourgpr = quantile(`mean price of bourgeoisie`, probs = 0.025))
+    summarize(
+        highbourgpr = quantile(`mean price of bourgeoisie`, probs = 0.975),
+        lowbourgpr = quantile(`mean price of bourgeoisie`, probs = 0.025)
+    )
 bourgeoisiesprice <- merge(bourgeoisiesprice,bourgeoisiespricessshades, by = "step")
 
 firmsprice <- outputs %>%
@@ -69,8 +73,10 @@ firmsprice <- outputs %>%
 
 firmspricesshades <- outputs %>%
     group_by(step) %>%
-    summarize(highfirmpr = quantile(`mean price of firms`, probs = 0.975),
-                        lowfirmpr = quantile(`mean price of firms`, probs = 0.025))
+    summarize(
+        highfirmpr = quantile(`mean price of firms`, probs = 0.975),
+        lowfirmpr = quantile(`mean price of firms`, probs = 0.025)
+    )
 firmsprice <- merge(firmsprice,firmspricesshades, by = "step")
 
 
@@ -80,8 +86,10 @@ farmsprice <- outputs %>%
 
 farmspricesshades <- outputs %>%
     group_by(step) %>%
-    summarize(highfarmpr = quantile(`mean-farm-price`, probs = 0.975),
-                        lowfarmpr = quantile(`mean-farm-price`, probs = 0.025))
+    summarize(
+        highfarmpr = quantile(`mean-farm-price`, probs = 0.975),
+        lowfarmpr = quantile(`mean-farm-price`, probs = 0.025)
+    )
 farmsprice <- merge(farmsprice,farmspricesshades, by = "step")
 
 salaries <- outputs %>%
@@ -89,8 +97,10 @@ salaries <- outputs %>%
     summarise_at(vars(`mean-salaries`),list(meansalaries=mean))
 salarieshades <- outputs %>%
     group_by(step) %>%
-    summarise(highsalary = quantile(`mean-salaries`, probs = 0.975),
-                        lowsalary = quantile(`mean-salaries`, probs = 0.025))
+    summarise(
+        highsalary = quantile(`mean-salaries`, probs = 0.975),
+        lowsalary = quantile(`mean-salaries`, probs = 0.025)
+    )
 salaries <- merge(salaries,salarieshades,by="step")
 
 forprices <- merge(bourgeoisiesprice,firmsprice,by="step")
@@ -112,8 +122,12 @@ prices <- ggplot(data = forprices, aes(x=step)) + ##produces the plot
     ggtitle('Prices averages') +
     scale_color_manual(name = "Classes", values = c("Bourgeoisie" = "orange", "Firms" = "yellow", "Farms" = "green","Salaries"="blue"))+
     geom_vline(xintercept = 100) + #line for time change
-    theme_bw() + theme(panel.border = element_blank(), panel.grid.major = element_blank(),
-                                        panel.grid.minor = element_blank(), axis.line = element_line(colour = "black"))
+    theme_bw() + theme(
+        panel.border = element_blank(),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        axis.line = element_line(colour = "black")
+    )
 
 #prices
 
@@ -130,8 +144,10 @@ bourgeoisiesincomes <- outputs %>%
 
 bourgeoisiesincomesshades <- outputs %>%
     group_by(step) %>%
-    summarize(highbourg = quantile(`mean wealth of bourgeoisie`, probs = 0.975),
-                        lowbourg = quantile(`mean wealth of bourgeoisie`, probs = 0.025))
+    summarize(
+        highbourg = quantile(`mean wealth of bourgeoisie`, probs = 0.975),
+        lowbourg = quantile(`mean wealth of bourgeoisie`, probs = 0.025)
+    )
 
 bourgeoisiesincomes <- merge(bourgeoisiesincomes,bourgeoisiesincomesshades, by = "step")
 
@@ -140,8 +156,10 @@ workersincomes <- outputs %>%
     summarise_at(vars(`mean wealth of workers`), list(workerswealth = mean))
 workersincomesshades <- outputs %>%
     group_by(step) %>%
-    summarize(highwork = quantile(`mean wealth of workers`, probs = 0.975),
-                        lowwork = quantile(`mean wealth of workers`, probs = 0.025))
+    summarize(
+        highwork = quantile(`mean wealth of workers`, probs = 0.975),
+        lowwork = quantile(`mean wealth of workers`, probs = 0.025)
+    )
 workersincomes <- merge(workersincomes,workersincomesshades, by = "step")
 
 noblesincomes <- outputs %>%
@@ -149,8 +167,10 @@ noblesincomes <- outputs %>%
     summarise_at(vars(`mean wealth of nobles`),list(nobleswealth = mean))
 noblesincomeshades <- outputs %>%
     group_by(step) %>%
-    summarize(highnobles = quantile(`mean wealth of nobles`, probs = 0.975),
-                        lownobles = quantile(`mean wealth of nobles`, probs = 0.025))
+    summarize(
+        highnobles = quantile(`mean wealth of nobles`, probs = 0.975),
+        lownobles = quantile(`mean wealth of nobles`, probs = 0.025)
+    )
 
 noblesincomes <- merge(noblesincomes,noblesincomeshades,by="step")
 
@@ -160,8 +180,10 @@ farmscapital <- outputs %>%
 
 farmsshades <- outputs %>%
     group_by(step) %>%
-    summarize(highfarms = quantile(`average-capital-farms`, probs = 0.975),
-                        lowfarms = quantile(`average-capital-farms`, probs = 0.025))
+    summarize(
+        highfarms = quantile(`average-capital-farms`, probs = 0.975),
+        lowfarms = quantile(`average-capital-farms`, probs = 0.025)
+    )
 
 farmscap <- merge(farmscapital,farmsshades,by="step")
 
@@ -172,8 +194,10 @@ firmscapital <- outputs %>%
 
 firmsshades <- outputs %>%
     group_by(step) %>%
-    summarize(highfirms = quantile(`average-capital-firms`, probs = 0.975),
-                        lowfirms = quantile(`average-capital-firms`, probs = 0.025))
+    summarize(
+        highfirms = quantile(`average-capital-firms`, probs = 0.975),
+        lowfirms = quantile(`average-capital-firms`, probs = 0.025)
+    )
 
 firmscap <- merge(firmscapital,firmsshades,by="step")
 
@@ -203,8 +227,12 @@ wealth <- ggplot(data = forincomes, aes(x=step)) + ##produces the plot
     ggtitle('Wealth Averages') +
     scale_color_manual(name = "Classes", values = c("Bourgeoisies" = "orange", "Workers" = "red","Nobles" = "blue", "Farms" = "green", "Firms" = "yellow"))+
     geom_vline(xintercept = 100) + #line for time change
-    theme_bw() + theme(panel.border = element_blank(), panel.grid.major = element_blank(),
-                                        panel.grid.minor = element_blank(), axis.line = element_line(colour = "black"))
+    theme_bw() + theme(
+        panel.border = element_blank(),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        axis.line = element_line(colour = "black")
+    )
 
 #wealth
 
@@ -220,8 +248,10 @@ gdp<- outputs %>%
 
 gdpshades<- outputs %>%
     group_by(step) %>%
-    summarize(highgdp = quantile(`GDP-spending`, probs = 0.975),
-                        lowgdp = quantile(`GDP-spending`, probs = 0.025))
+    summarize(
+        highgdp = quantile(`GDP-spending`, probs = 0.975),
+        lowgdp = quantile(`GDP-spending`, probs = 0.025)
+    )
 gdp <- merge(gdp,gdpshades,by="step")
 
 goods<- outputs %>%
@@ -230,8 +260,10 @@ goods<- outputs %>%
 
 goodsshape<- outputs %>%
     group_by(step) %>%
-    summarize(highgoods = quantile(`goods-income-value`, probs = 0.975),
-                        lowgoods = quantile(`goods-income-value`, probs = 0.025))
+    summarize(
+        highgoods = quantile(`goods-income-value`, probs = 0.975),
+        lowgoods = quantile(`goods-income-value`, probs = 0.025)
+    )
 
 goods<- merge(goods,goodsshape,by="step")
 
@@ -241,8 +273,10 @@ land<- outputs %>%
 
 landshapes<- outputs %>%
     group_by(step) %>%
-    summarize(highland = quantile(`land-income-value`, probs = 0.975),
-                        lowland = quantile(`land-income-value`, probs = 0.025))
+    summarize(
+        highland = quantile(`land-income-value`, probs = 0.975),
+        lowland = quantile(`land-income-value`, probs = 0.025)
+    )
 
 land<- merge(land,landshapes,by="step")
 
@@ -252,8 +286,10 @@ labor<- outputs %>%
 
 laborshapes<- outputs %>%
     group_by(step) %>%
-    summarize(highlabor = quantile(`labor-income-value`, probs = 0.975),
-                        lowlabor = quantile(`labor-income-value`, probs = 0.025))
+    summarize(
+        highlabor = quantile(`labor-income-value`, probs = 0.975),
+        lowlabor = quantile(`labor-income-value`, probs = 0.025)
+    )
 
 labor<- merge(labor,laborshapes,by="step")
 
@@ -264,8 +300,10 @@ service<- outputs %>%
 
 serviceshades<- outputs %>%
     group_by(step) %>%
-    summarize(highservice = quantile(`service-income-value`, probs = 0.975),
-                        lowservice = quantile(`service-income-value`, probs = 0.025))
+    summarize(
+        highservice = quantile(`service-income-value`, probs = 0.975),
+        lowservice = quantile(`service-income-value`, probs = 0.025)
+    )
 
 service<- merge(service,serviceshades,by="step")
 
@@ -275,8 +313,10 @@ profits<- outputs %>%
 
 profitsshades<- outputs %>%
     group_by(step) %>%
-    summarize(highprofits = quantile(`profit-income-value`, probs = 0.975),
-                        lowprofits = quantile(`profit-income-value`, probs = 0.025))
+    summarize(
+        highprofits = quantile(`profit-income-value`, probs = 0.975),
+        lowprofits = quantile(`profit-income-value`, probs = 0.025)
+    )
 
 profits<- merge(profits,profitsshades,by="step")
 
@@ -287,8 +327,10 @@ realgdp<- outputs %>%
 
 realgdpshades<- outputs%>%
     group_by(step) %>%
-    summarise(highreal = quantile(`real-GDP-spending`, probs = 0.975),
-                        lowreal = quantile(`real-GDP-spending`, probs = 0.025))
+    summarise(
+        highreal = quantile(`real-GDP-spending`, probs = 0.975),
+        lowreal = quantile(`real-GDP-spending`, probs = 0.025)
+    )
 
 realgdp<- merge(realgdp,realgdpshades,by="step")
 
@@ -325,8 +367,12 @@ forGDP <- ggplot(data = forgdp, aes(x=step)) + ##produces the plot
     ggtitle('GDP and sectors contributions ') +
     scale_color_manual(name = "Classes", values = c("GDP"="black","Real GDP"="black","Services" = "orange", "Labor" = "red","Profits" = "blue", "Food" = "green", "Goods" = "yellow"))+
     geom_vline(xintercept = 100) + #line for time change
-    theme_bw() + theme(panel.border = element_blank(), panel.grid.major = element_blank(),
-                                        panel.grid.minor = element_blank(), axis.line = element_line(colour = "black"))
+    theme_bw() + theme(
+        panel.border = element_blank(),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        axis.line = element_line(colour = "black")
+    )
 #forGDP
 
 
