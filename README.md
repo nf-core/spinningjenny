@@ -19,20 +19,21 @@
 
 ## Introduction
 
-**nf-core/spinningjenny** is a bioinformatics pipeline that ...
+**nf-core/spinningjenny** is a computational pipeline for simulating the first industrial revolution using Agent Based Models. 
+The pipeline is built using [Nextflow](https://www.nextflow.io), a workflow tool to run tasks across multiple compute infrastructures in a very portable manner. It uses Docker/Singularity containers making installation trivial and results highly reproducible. The [Nextflow DSL2](https://www.nextflow.io/docs/latest/dsl2.html) implementation of this pipeline uses one container per process which makes it much easier to maintain and update software dependencies. Where possible, these processes have been submitted to and installed from [nf-core/modules](https://github.com/nf-core/modules) in order to make them available to all nf-core pipelines, and to everyone within the Nextflow community!
 
-<!-- TODO nf-core:
-   Complete this sentence with a 2-3 sentence summary of what types of data the pipeline ingests, a brief overview of the
-   major pipeline sections and the types of output it produces. You're giving an overview to someone new
-   to nf-core here, in 15-20 seconds. For an example, see https://github.com/nf-core/rnaseq/blob/master/README.md#introduction
--->
+<!-- TODO nf-core: Add full-sized test dataset and amend the paragraph below if applicable -->
 
+On release, automated continuous integration tests run the pipeline on a full-sized dataset on the AWS cloud infrastructure. This ensures that the pipeline runs on AWS, has sensible resource allocation defaults set to run on real-world datasets, and permits the persistent storage of results to benchmark between pipeline releases and other analysis sources.The results obtained from the full-sized test can be viewed on the [nf-core website](https://nf-co.re/spinningjenny/results).
+
+## Pipeline summary
 <!-- TODO nf-core: Include a figure that guides the user through the major workflow steps. Many nf-core
      workflows use the "tube map" design for that. See https://nf-co.re/docs/contributing/design_guidelines#examples for examples.   -->
 <!-- TODO nf-core: Fill in short bullet-pointed list of the default steps in the pipeline -->
 
-1. Read QC ([`FastQC`](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/))
-2. Present QC for raw reads ([`MultiQC`](http://multiqc.info/))
+1. xlmMod: it generates xml input files for running the ABM in parallel
+2. Model runs ([`netLogo`](https://ccl.northwestern.edu/netlogo/))
+3. Draw plots reporting different economic parameters ([`R statistical language`](https://www.r-project.org/))
 
 ## Usage
 
@@ -103,6 +104,14 @@ An extensive list of references for the tools used by the pipeline can be found 
 
 You can cite the `nf-core` publication as follows:
 
+> **Simulating the Industrial Revolution: A History-Friendly Model.**
+>
+> Nicola Visonà and Luca Riccetti
+>
+> January 31, 2023. [Available at SSRN](https://ssrn.com/abstract=4418148 or http://dx.doi.org/10.2139/ssrn.4418148)
+>
+> **The nf-core framework for community-curated bioinformatics pipelines.**
+>
 > **The nf-core framework for community-curated bioinformatics pipelines.**
 >
 > Philip Ewels, Alexander Peltzer, Sven Fillinger, Harshil Patel, Johannes Alneberg, Andreas Wilm, Maxime Ulysse Garcia, Paolo Di Tommaso & Sven Nahnsen.
