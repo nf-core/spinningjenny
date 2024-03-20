@@ -1,5 +1,5 @@
 process RUN_MODEL {
-    container 'biocorecrg/econ:0.02'
+    container 'nf-core/econ:0.02'
 
     tag { "${experiment} on ${id}" }
     label 'process_medium'

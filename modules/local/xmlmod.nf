@@ -1,5 +1,5 @@
 process XML_MOD {
-    container 'biocorecrg/amazonlinux-perlbrew-pyenv3-java:2'
+    container 'biocontainers/python:3.12'
 
     tag { "${par_name} on ${par_value}" }
 

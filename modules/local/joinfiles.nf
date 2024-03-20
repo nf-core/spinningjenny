@@ -1,6 +1,5 @@
 process JOIN_FILES {
-
-    container 'biocorecrg/amazonlinux-perlbrew-pyenv3-java:2'
+    container 'biocontainers/python:3.12'
 
     tag { "${id}" }
 

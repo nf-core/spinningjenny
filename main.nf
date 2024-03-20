@@ -21,7 +21,6 @@ include { SPINNINGJENNY  } from './workflows/spinningjenny'
 include { PIPELINE_INITIALISATION } from './subworkflows/local/utils_nfcore_spinningjenny_pipeline'
 //include { PIPELINE_COMPLETION     } from './subworkflows/local/utils_nfcore_spinningjenny_pipeline'
 
-//include { getGenomeAttribute      } from './subworkflows/local/utils_nfcore_spinningjenny_pipeline'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -52,8 +51,6 @@ workflow NFCORE_SPINNINGJENNY {
         samplesheet
     )
 
-    //emit:
-    //multiqc_report = SPINNINGJENNY.out.multiqc_report // channel: /path/to/multiqc_report.html
 
 }
 /*
