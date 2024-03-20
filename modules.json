@@ -3,6 +3,15 @@
     "homePage": "https://github.com/nf-core/spinningjenny",
     "repos": {
         "https://github.com/nf-core/modules.git": {
+            "modules": {
+                "nf-core": {
+                    "multiqc": {
+                        "branch": "master",
+                        "git_sha": "b7ebe95761cd389603f9cc0e0dc384c0f663815a",
+                        "installed_by": ["modules"]
+                    }
+                }
+            },
             "subworkflows": {
                 "nf-core": {
                     "utils_nextflow_pipeline": {
