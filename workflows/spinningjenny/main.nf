@@ -64,7 +64,7 @@ workflow SPINNINGJENNY {
     // Create channels for input values
 
     main:
-    
+
     Channel
         .from(ch_input.readLines())
         .map { line ->
@@ -118,7 +118,7 @@ workflow SPINNINGJENNY {
     out = MAKE_PLOT(concat_res)
 
     emit:
-	out
+    out
 }
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

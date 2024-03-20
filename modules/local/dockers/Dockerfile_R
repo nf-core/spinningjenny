@@ -2,7 +2,7 @@
 FROM bioconductor/bioconductor_docker:RELEASE_3_14
 
 # File Author / Maintainer
-MAINTAINER Luca Cozzuto <lucacozzuto@gmail.com> 
+MAINTAINER Luca Cozzuto <lucacozzuto@gmail.com>
 
 RUN Rscript -e "install.packages(c('tidyverse', 'readr', 'dplyr'))"
 
