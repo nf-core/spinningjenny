@@ -1,0 +1,16 @@
+# This will do biocorecrg/econ_r:0.2
+FROM bioconductor/bioconductor_docker:RELEASE_3_14
+
+# File Author / Maintainer
+MAINTAINER Luca Cozzuto <lucacozzuto@gmail.com>
+
+RUN Rscript -e "install.packages(c('tidyverse', 'readr', 'dplyr'))"
+
+RUN Rscript -e "install.packages('argparse')"
+
+RUN Rscript -e "install.packages('ggpubr')"
+
+RUN Rscript -e "install.packages('plm')"
+
+RUN Rscript -e "install.packages(c('jtools', 'janitor', 'texreg', 'fixest', 'modelsummary', 'gridExtria'))"
+
