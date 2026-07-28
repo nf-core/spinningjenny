@@ -1,4 +1,4 @@
-#!/usr/bin/env python 
+#!/usr/bin/env python
 __author__ = 'luca.cozzuto@crg.eu'
 # -*- coding utf-8 -*-
 
@@ -18,7 +18,7 @@ def argparse_args():
 	parser.add_argument('-v', action='store', dest='value', help='value(s) of the param(s) that has to be used. They can be comma separated')
 
 	args = parser.parse_args()
-	
+
 	return (args)
 
 
@@ -42,7 +42,7 @@ def parse_stats(file, ids, vals, outfile):
 					child3.set('value', new_value)
 					print(child3.attrib)
 	tree.write(outfile)
-	return 
+	return
 
 
 if __name__ == "__main__":
