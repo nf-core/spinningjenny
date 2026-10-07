@@ -19,7 +19,6 @@
                     "schema": "assets/schema_input.json",
                     "mimetype": "text/csv",
                     "pattern": "^\\S+\\.txt$",
-                    "schema": "assets/schema_input.json",
                     "description": "Path to comma-separated file containing information about the variables used in the experiment.",
                     "help_text": "You will need to create a design file with information about the variables to be changed running the pipeline. Use this parameter to specify its location. It has to be a tab-separated file with 4 columns, and no header row. See [usage docs](https://nf-co.re/spinningjenny/usage#samplesheet-input).",
                     "fa_icon": "fas fa-file-csv"
@@ -27,9 +26,7 @@
                 "template": {
                     "type": "string",
                     "format": "file-path",
-                    "mimetype": "text/xml",
                     "pattern": "^\\S+\\.xml$",
-                    "schema": "assets/schema_input.json",
                     "description": "Path to xml file containing information about experiment to be run using the ABM",
                     "help_text": "You will need to create an experiment file with information about the number of steps and the initial values of the variables",
                     "fa_icon": "fas fa-file-csv"
@@ -39,7 +36,6 @@
                     "format": "file-path",
                     "mimetype": "text/csv",
                     "pattern": "^\\S+\\.nlogo$",
-                    "schema": "assets/schema_input.json",
                     "description": "Path to the nlogo file containing information about the ABM",
                     "help_text": "You will need to create an nlogo file with information about the kind of model you want to represent",
                     "fa_icon": "fas fa-file-csv"
@@ -49,7 +45,6 @@
                     "default": 1,
                     "format": "file-path",
                     "pattern": "",
-                    "schema": "assets/schema_input.json",
                     "description": "Number of batches for running chunks of experiments",
                     "help_text": "It should be the total number of replications divided by the number maximum number of CPU per job ",
                     "fa_icon": "fas fa-palette"
